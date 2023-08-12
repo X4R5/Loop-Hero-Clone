@@ -8,7 +8,7 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Time.timeScale = _isStopped ? 1f : 0f;
             _isStopped = !_isStopped;

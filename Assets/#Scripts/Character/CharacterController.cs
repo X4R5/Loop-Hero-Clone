@@ -27,12 +27,20 @@ public class CharacterController : MonoBehaviour
     private void Move()
     {
         if (_currentTile == null) return;
+        if (!_canMove) return;
 
         transform.position = Vector2.MoveTowards(transform.position, _currentTile.GetNextTile().transform.position, _moveSpeed * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, _currentTile.GetNextTile().transform.position) < 0.01f)
         {
             _currentTile = _currentTile.GetNextTile();
+            if(_currentTile.GetEnemy() != null)
+            {
+                _canMove = false;
+                BattleManager.instance.ShowBattlePanel();
+                EnemyBattleController.instance.SetEnemy(_currentTile.GetEnemy());
+                BattleManager.instance.StartBattle();
+            }
             SetMoveAnimationTrigger();
         }
     }
@@ -62,5 +70,15 @@ public class CharacterController : MonoBehaviour
         transform.position = tile.transform.position;
         _canMove = true;
         _currentTile = tile;
+    }
+
+    public void CanMove(bool canMove)
+    {
+        _canMove = canMove;
+    }
+
+    public PathTile GetCurrentTile()
+    {
+        return _currentTile;
     }
 }

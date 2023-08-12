@@ -13,8 +13,6 @@ public class InventoryItem : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Item enabled");
         _animator.SetTrigger("enable");
-        _animator.SetBool("j", true);
     }
 }
