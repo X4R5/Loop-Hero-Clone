@@ -15,4 +15,4 @@ MonoBehaviour:
   _sprite: {fileID: 21300000, guid: 8ed5d6f4cd5a90e4682ebafe3fe6f55f, type: 3}
   _minDamage: 6
   _maxDamage: 11
-  _width: 50
+  _width: 40

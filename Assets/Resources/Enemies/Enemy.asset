@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sprite: {fileID: 21300000, guid: e748c4ff4cc926e4e90e69217ecd6760, type: 3}
   _maxHealth: 100
-  _minAttack: 2
-  _maxAttack: 3
+  _minAttack: 13
+  _maxAttack: 25
   _attackDelay: 2

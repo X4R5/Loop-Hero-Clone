@@ -25,13 +25,8 @@ public class InventoryManager : MonoBehaviour
 
         MoveObjectsNextSlot();
 
-        foreach (var slot in _allSlots)
-        {
-            if (slot._hasItem) continue;
-
-            slot.AddItem(weaponInventoryObject);
-            break;
-        }
+        var index = FindNextAvailableIndex(-1);
+        _allSlots[index].AddItem(weaponInventoryObject);
 
         _currentItemCount++;
     }
@@ -44,13 +39,8 @@ public class InventoryManager : MonoBehaviour
 
         MoveObjectsNextSlot();
 
-        foreach (var slot in _allSlots)
-        {
-            if (slot._hasItem) continue;
-
-            slot.AddItem(shieldInventoryObject);
-            break;
-        }
+        var index = FindNextAvailableIndex(-1);
+        _allSlots[index].AddItem(shieldInventoryObject);
 
         _currentItemCount++;
     }
@@ -61,15 +51,11 @@ public class InventoryManager : MonoBehaviour
 
         HideAllSlots();
 
-        MoveObjectsNextSlot();
+        if(_currentItemCount > 0) MoveObjectsNextSlot();
 
-        foreach (var slot in _allSlots)
-        {
-            if (slot._hasItem) continue;
 
-            slot.AddItem(consumableInventoryObject);
-            break;
-        }
+        var index = FindNextAvailableIndex(-1);
+        _allSlots[index].AddItem(consumableInventoryObject);
 
         _currentItemCount++;
     }
@@ -91,9 +77,13 @@ public class InventoryManager : MonoBehaviour
 
             if (_allSlots[i]._isLocked) continue;
 
-            var nextAvailableIndex = FindNextAvailableIndex(i + 1);
+            if (FindNextAvailableIndex(-1) < i) continue;
 
-            switch (_allSlots[nextAvailableIndex]._currentItemType)
+            var nextAvailableIndex = /*i + 1;*/ FindNextAvailableIndex(i);
+
+            if (nextAvailableIndex == -1) continue;
+
+            switch (_allSlots[i]._currentItemType)
             {
                 case InventorySlot.ItemType.Weapon:
                     _allSlots[nextAvailableIndex].AddItem(_allSlots[i]._weapon);
@@ -107,13 +97,15 @@ public class InventoryManager : MonoBehaviour
                 default:
                     break;
             }
+
+            _allSlots[i].RemoveItem();
         }
     }
 
     int FindNextAvailableIndex(int startIndex)
     {
         int nextAvailableIndex = -1;
-        for (int i = startIndex; i < _allSlots.Count; i++)
+        for (int i = startIndex + 1; i < _allSlots.Count; i++)
         {
             if (!_allSlots[i]._hasItem && !_allSlots[i]._isLocked)
             {

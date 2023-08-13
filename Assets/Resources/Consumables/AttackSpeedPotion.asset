@@ -15,4 +15,4 @@ MonoBehaviour:
   _sprite: {fileID: 21300000, guid: e2422df905938c844b7f86b99f61eead, type: 3}
   _health: 0
   _attackSpeedPercentage: 30
-  _width: 75
+  _width: 65

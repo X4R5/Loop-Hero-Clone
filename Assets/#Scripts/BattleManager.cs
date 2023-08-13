@@ -89,6 +89,18 @@ public class BattleManager : MonoBehaviour
     {
         _battlePanel.SetActive(true);
 
+        if(GearPotion.instance._currentPotion != null)
+        {
+            if (GearPotion.instance._currentPotion._health != 0)
+            {
+                CharacterBattleController.instance.Heal((int)GearPotion.instance._currentPotion._health);
+            }
+            else
+            {
+                CharacterBattleController.instance.SetAttackSpeed(GearPotion.instance._currentPotion._attackSpeedPercentage / 100);
+            }
+        }
+
         _playerHealthBar.fillAmount = CharacterBattleController.instance.GetHealthNormalized();
         _playerAttackBar.fillAmount = 0f;
         CharacterBattleController.instance.ResetAttackDelay();

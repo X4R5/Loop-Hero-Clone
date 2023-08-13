@@ -51,6 +51,27 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerClickH
                 _isLocked = true;
             }
         }
+
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            if (!_hasItem) return;
+
+            if (_currentItemType == ItemType.Weapon)
+            {
+                GearWeapon.instance.EquipWeapon(_weapon);
+                RemoveItem();
+            }
+            else if (_currentItemType == ItemType.Shield)
+            {
+                GearShield.instance.EquipShield(_shield);
+                RemoveItem();
+            }
+            else if (_currentItemType == ItemType.Consumable)
+            {
+                GearPotion.instance.EquipPotion(_consumable);
+                RemoveItem();
+            }
+        }
         
     }
 
@@ -118,6 +139,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         _shield = null;
         _consumable = null;
         _hasItem = false;
+        _isLocked = false;
         _slotImage.sprite = null;
         _slotImage.gameObject.SetActive(false);
     }
