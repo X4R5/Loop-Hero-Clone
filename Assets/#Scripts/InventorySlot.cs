@@ -56,6 +56,12 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         {
             if (!_hasItem) return;
 
+            if (_isLocked)
+            {
+                _lockedImage.gameObject.SetActive(false);
+                _isLocked = false;
+            }
+
             if (_currentItemType == ItemType.Weapon)
             {
                 GearWeapon.instance.EquipWeapon(_weapon);

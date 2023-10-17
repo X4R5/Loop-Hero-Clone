@@ -17,13 +17,18 @@ public class InventoryManager : MonoBehaviour
         instance = this;
     }
 
-    public void AddItemToInventory(WeaponInventoryObject weaponInventoryObject)
+    void AddItemToInventoryBase()
     {
         IsFull();
 
-        HideAllSlots();
+        //HideAllSlots();
 
-        MoveObjectsNextSlot();
+        if (_currentItemCount > 0) MoveObjectsNextSlot();
+    }
+
+    public void AddItemToInventory(WeaponInventoryObject weaponInventoryObject)
+    {
+        AddItemToInventoryBase();
 
         var index = FindNextAvailableIndex(-1);
         _allSlots[index].AddItem(weaponInventoryObject);
@@ -33,11 +38,7 @@ public class InventoryManager : MonoBehaviour
 
     public void AddItemToInventory(ShieldInventoryObject shieldInventoryObject)
     {
-        IsFull();
-
-        HideAllSlots();
-
-        MoveObjectsNextSlot();
+        AddItemToInventoryBase();
 
         var index = FindNextAvailableIndex(-1);
         _allSlots[index].AddItem(shieldInventoryObject);
@@ -47,11 +48,7 @@ public class InventoryManager : MonoBehaviour
 
     public void AddItemToInventory(ConsumableInventoryObject consumableInventoryObject)
     {
-        IsFull();
-
-        HideAllSlots();
-
-        if(_currentItemCount > 0) MoveObjectsNextSlot();
+        AddItemToInventoryBase();
 
 
         var index = FindNextAvailableIndex(-1);
