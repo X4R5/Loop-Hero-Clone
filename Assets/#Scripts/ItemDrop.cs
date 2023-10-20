@@ -9,22 +9,26 @@ public class ItemDrop : MonoBehaviour
     [SerializeField] List<WeaponInventoryObject> _allWeapons = new List<WeaponInventoryObject>();
     [SerializeField] List<ShieldInventoryObject> _allShields = new List<ShieldInventoryObject>();
     [SerializeField] List<ConsumableInventoryObject> _allConsumables = new List<ConsumableInventoryObject>();
+    [SerializeField] List<EnvironmentCardScriptableObject> _allEnvironmentCards = new List<EnvironmentCardScriptableObject>();
 
     private void Awake()
     {
         _allWeapons = Resources.LoadAll<WeaponInventoryObject>("Weapons").ToList();
         _allShields = Resources.LoadAll<ShieldInventoryObject>("Shields").ToList();
         _allConsumables = Resources.LoadAll<ConsumableInventoryObject>("Consumables").ToList();
+        _allEnvironmentCards = Resources.LoadAll<EnvironmentCardScriptableObject>("EnvironmentCards").ToList();
     }
 
     private void OnEnable()
     {
         BattleManager.onBattleEnd += DropRandomItem;
+        BattleManager.onBattleEnd += DropEnvironmentCard;
     }
 
     private void OnDisable()
     {
         BattleManager.onBattleEnd -= DropRandomItem;
+        BattleManager.onBattleEnd -= DropEnvironmentCard;
     }
 
     private void DropRandomItem()
@@ -48,5 +52,12 @@ public class ItemDrop : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void DropEnvironmentCard()
+    {
+        var randEnvironmentCard = UnityEngine.Random.Range(0, _allEnvironmentCards.Count);
+        EnvironmentCardsManager.Instance.AddCard(_allEnvironmentCards[randEnvironmentCard]);
+        //InventoryManager.instance.AddItemToInventory(_allEnvironmentCards[randEnvironmentCard]);
     }
 }
